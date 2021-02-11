@@ -1,0 +1,122 @@
+\subsection{spectrum}
+
+\subsubsection{plot\_spectrum}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plot_spectrum(f, t, S, name, freq_range}\OperatorTok{=}\NormalTok{(}\DecValTok{50}\NormalTok{, }\DecValTok{2000}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+Takes a provided rectangular array of spectrum vs time and creates a
+meshplot with the markings for notes of the equal tempered scale.
+
+\textbf{Arguments}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{f} \emph{array\_like} - A 1D array of frequencies for the
+  spectrum in P
+\item
+  \texttt{t} \emph{array\_like} - Time samples of the spectrum.
+\item
+  \texttt{S} \emph{array\_like} - An array of spectra at different
+  times. Should be of shape (len(t), len(f)).
+\item
+  \texttt{name} \emph{str} - The output file same. The plot will be
+  saved in ``HW2/figures/name.png''.
+\item
+  \texttt{freq\_range} \emph{tuple} - The ends of the frequency range to
+  plot. Defaults to (50 Hz, 2000 Hz).
+\end{itemize}
+
+\subsubsection{get\_spectrum}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{get_spectrum(data, rate, width)}
+\end{Highlighting}
+\end{Shaded}
+
+Produces the Gabor transform of the data provided using a gaussian
+window with the width provided. The transform is given in timesteps of
+1/4 the width.
+
+\textbf{Arguments}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{data} \emph{array\_like} - The time series to be transformed.
+\item
+  \texttt{rate} \emph{float} - The sampling rate (\#/s) used for data.
+\item
+  \texttt{width} \emph{float} - The width of the gaussian window in
+  seconds.
+\end{itemize}
+
+\textbf{Returns}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{f} \emph{ndarray} - Array of sample frequencies.
+\item
+  \texttt{t} \emph{ndarray} - Array of sample times.
+\item
+  \texttt{S} \emph{ndarray} - The Gabor transform of data.
+\end{itemize}
+
+\subsubsection{low\_pass}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{low_pass(data, rate, cutoff)}
+\end{Highlighting}
+\end{Shaded}
+
+Applies a 4th order low pass filter to a time series.
+
+\textbf{Arguments}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{data} \emph{array\_like} - The time series to be filtered.
+\item
+  \texttt{rate} \emph{float} - The sample rate of data.
+\item
+  \texttt{cutoff} \emph{float} - Cutoff frequency for the filter in Hz.
+\end{itemize}
+
+\subsubsection{run\_gnr}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{run_gnr()}
+\end{Highlighting}
+\end{Shaded}
+
+Generates the spectrum of the Sweet Child O' Mine clip.
+
+\subsubsection{run\_floyd\_guitar}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{run_floyd_guitar()}
+\end{Highlighting}
+\end{Shaded}
+
+Generates the spectrum of the guitar in the Comfortably Numb clip.
+
+\subsubsection{run\_floyd\_bass}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{run_floyd_bass()}
+\end{Highlighting}
+\end{Shaded}
+
+Generates the spectrum of the bass in the Comfortably Numb clip, and
+produces a filtered clip of just the bass.
