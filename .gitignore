@@ -1,0 +1,9 @@
+.venv
+.vscode
+*/*.log
+*/*.aux
+*/*.bbl
+*/*.log
+*/*.synctex.gz
+*/*.ipynb
+*/__pycache__
