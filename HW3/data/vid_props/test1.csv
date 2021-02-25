@@ -1,0 +1,4 @@
+path,start,end,left,right,top,bottom
+"data/vids/cam1_1",0,226,300,400,200,425
+"data/vids/cam2_1",10,236,225,350,75,400
+"data/vids/cam3_1",0,226,250,500,225,350
