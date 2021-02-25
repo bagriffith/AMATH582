@@ -1,0 +1,204 @@
+
+\subsection{Video Objects}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{class}\NormalTok{ Video()}
+\end{Highlighting}
+\end{Shaded}
+
+Parameters of to load a single video matrix.
+
+This is to load the video form the matlab matrix file and then crop it
+appropriately.
+
+\textbf{Attributes}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{filename} \emph{str} - The path to the matlab matrix file for
+  the video.
+\item
+  \texttt{start} \emph{int} - The frame to start loading from.
+\item
+  \texttt{end} \emph{int} - Load frames before this number.
+\item
+  \texttt{left} \emph{int} - The left edge to crop from.
+\item
+  \texttt{right} \emph{int} - The right edge to crop from.
+\item
+  \texttt{top} \emph{int} - The top edge to crop from.
+\item
+  \texttt{bottom} \emph{int} - The bottom edge to crop from.
+\end{itemize}
+
+\subsubsection{\_\_init\_\_}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+ \OperatorTok{|} \FunctionTok{__init__}\NormalTok{(filename, start, end, left, right, top, bottom)}
+\end{Highlighting}
+\end{Shaded}
+
+Initialize the Video class.
+
+args: filename (str): The path to the matlab matrix file for the video.
+start (int): The frame to start loading from. end (int): Load frames
+before this number. left (int): The left edge to crop from. right (int):
+The right edge to crop from. top (int): The top edge to crop from.
+bottom (int): The bottom edge to crop from.
+
+\subsubsection{read}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+ \OperatorTok{|}\NormalTok{ read()}
+\end{Highlighting}
+\end{Shaded}
+
+Retrieve the matrix of the video, cropped as specified.
+
+\textbf{Returns}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{ndarray} - The matrix of the video. The shape is (vertical
+  pixels, horizontal pixels, frames).
+\end{itemize}
+
+\subsubsection{from\_text}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+ \OperatorTok{|} \OperatorTok{@}\NormalTok{staticmethod}
+ \OperatorTok{|}\NormalTok{ from_text(text)}
+\end{Highlighting}
+\end{Shaded}
+
+Creates a video class from the line of a CSV
+
+\textbf{Arguments}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{text} \emph{str} - Line from a csv ``path, start, end, left,
+  right, top, bottom''
+\end{itemize}
+
+\textbf{Returns}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{Video} - A \texttt{Video} class for the line provided.
+\end{itemize}
+
+\subsection{make\_vid\_list}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{make_vid_list()}
+\end{Highlighting}
+\end{Shaded}
+
+Create lists of \texttt{Video} for all 4 tests.txt
+
+Creates the videos with the properties defined in the vid\_props files.
+
+\textbf{Returns}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{list} - List of each test's list of \texttt{Video} objects.
+\end{itemize}
+
+\subsection{read\_meas\_matrix}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{read_meas_matrix(vid_list)}
+\end{Highlighting}
+\end{Shaded}
+
+Loads the matrix with rows being the separate time measurements.
+
+This is the X matrix expected for PCA.
+
+\textbf{Arguments}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{vid\_list} \emph{list} - A list of \texttt{Video} class
+  objects to load the measurements from. All of the should be the same
+  length.
+\end{itemize}
+
+\textbf{Returns}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{ndarray} - The measurements matrix X for PCA. Shape (Number of
+  Pixels, Number of Frames)
+\end{itemize}
+
+\subsection{pca}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pca(M)}
+\end{Highlighting}
+\end{Shaded}
+
+Preforms PCA on the matrix provided.
+
+\textbf{Arguments}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{M} \emph{array-like} - The matrix to preform PCA on.
+\end{itemize}
+
+\textbf{Returns}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{ndarray} - The variances of the principal components.
+\item
+  \texttt{ndarray} - U\_T matrix to project M into principal components.
+\end{itemize}
+
+\subsection{plot\_dominant\_mode}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plot_dominant_mode(s, U_T, X, fig_path)}
+\end{Highlighting}
+\end{Shaded}
+
+Plots the variances and the fist 4 PCA modes.
+
+\textbf{Arguments}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{s} \emph{array-like} - 1D arrray of the variances of the
+  principal components.
+\item
+  \texttt{U\_T} \emph{array-like} - The matrix to transform X into the
+  principal components.
+\item
+  \texttt{X} \emph{array-like} - The measurement matrix
+\item
+  \texttt{fig\_path} \emph{str} - The path to save the plot.
+\item
+  \texttt{comps} \emph{int} - Number of modes to plot
+\end{itemize}
