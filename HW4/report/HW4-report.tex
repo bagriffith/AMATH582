@@ -1,0 +1,226 @@
+\documentclass{article}
+\usepackage{minted}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{physics}
+\usepackage{siunitx}
+\usepackage{placeins}
+\usepackage{hyperref}
+
+\input{pandoc-preamble.tex}
+
+\graphicspath{{../figures/}}
+
+\begin{document}
+    \begin{center}
+        \Large AMATH 582 Homework 4: Classifying Digits \par
+        \large Brady Griffith
+    \end{center}
+
+    \begin{abstract}
+        In this project handwritten digits from the MNIST data set are
+        transformed into the 100 most important PCA modes. This is then put
+        through three differemt clasification algorithms: linear discriminant
+        analysis, support vector machines, and decision trees. The performance
+        is then compared.
+    \end{abstract}
+
+    \section{Introduction and Overview}
+    The MNIST database contains 60,000 handwritten digits from 250 different
+    writers. Half come from high school students and half from census workers.
+    This set is a popular way of comparing different machine learning
+    techniques. In project, I will look at the linear discriminant analysis
+    (LDA), for differentiating between digits in sets that contain either two or
+    three. I will also look at how two more sophisticated algorithms, support
+    vector machines (SVM) and decision tree classifiers preform in comparison.
+
+    \section{Theoretical Background}
+    % Brief PCA recap
+    Before I preform any analysis, it is preferable to reduce the order of the
+    image vectors, and switch into an orthonormal basis. This is exactly the job
+    the SVD preforms. The last lab discussed at length how this process works,
+    so I will skip over the details here. The results decomposes the data matrix
+    $\vb{X}$ into three matrices
+    $$ \vb{U} \vb*{\Sigma} \vb{V} = \vb{X} $$
+    $\vb{V}$ has columns of the orthonormal basis for $\vb{X}$. $\vb*{\Sigma}$
+    is the strength of this projection, with larger diagonals implying that the
+    coresponding column of $\vb{V}$ is more important to properly representing
+    $\vb{X}$. And $\vb{U}$ .
+
+    % LDA Explanation
+    LDA makes a differentiation by projecting the data onto an axis which
+    maximizes the distance between means of the two classes \cite{Kutz2013}.
+    This axis $\vb{w}$ can be defined as
+    $$\vb{w} = \arg \max_{\vb{w}}
+    \frac{\vb{w}^T \vb{S}_B \vb{w}}{\vb{w}^T \vb{S}_B \vb{w}} $$
+    where
+    $$ \vb{S}_B = (\mu_2 - \mu_1)(\mu_2 - \mu_1)^T $$
+    and
+    $$ \vb{S}_W = \sum_{j=1}^2 \sum_{\vb{x}} (\vb{x} - \mu_j)(\vb{x} - \mu_j)^T $$
+    with $\mu_j$ being the means of the cluseter in each class. This form of
+    problem can be solved as a generalized eigenvector problem.
+    $$ \vb{S}_B \vb{w} = \lambda \vb{S}_W \vb{w}$$
+    When projecting the data vector onto $\vb{w}$ the vlaue taken by each class
+    will tend to be fall around two different centers. Simply declaring a
+    threshold in the middle will allow for classification.
+
+    This project also explores two different classification techniques. To
+    fully explain them is beyond the score of this report, and I would direct
+    the reader to the scikit-learn package for more information \cite{scikit-learn}.
+    I will instead explain at a very high level.
+
+    Support Vector Machines work by dividing up the data vector space into the
+    number of categories desired. The linear version used in this project does
+    this by marking three centers and choosing the category whose center the data
+    is closest to. The fitting process involves moving these centers to best match
+    the training data.
+
+    A decision tree classifier creates a tree of conditions on the data vector.
+    At the end of the tree of conditions each branch has one classification. The
+    fitting process involves defining these condition along with the number
+    needed. This method has the advantage of being easy to interpret the model
+    created.
+
+    \section{Algorithm Implementation and Development}
+    The SVD is preformed using the numpy \lstinline{numpy.linalg.svd} function.
+    For the rest of the project, the algorithms are applied to the data
+    projected onto the first 100 columns of $\vb{V}$.
+
+    Mimicking the style built into the scikit-learn package, all of the
+    clasification algorithms are built as objects with two functions. The
+    \lstinline{Classifier.fit(X, y)} function is used to train the model.
+    The data is provided as rows in \lstinline{X}, and the labels in the
+    array \lstinline{y}. I implement LDA for classifying into two or three
+    categories. For all classification problems, I train using a set of $N$
+    digit samples, and the performance reported comes from a set of $N/5$
+    samples excluded from the training data.
+
+    In the case of two categories, I apply LDA as described in the Theoretical
+    Background section. In the case of three, I apply LDA 3 times, to all
+    combinations of the three labels. I then take the classification which
+    was chosen by the most of the three. If all three disagree, I randomly
+    choose a label. The idea behind this method is that for the two combinations
+    where the correct answer is compared, it will be selected. In the 3rd, the
+    result will be nonsense, but can be ignored. A disadvantage of this method
+    is that the number of times LDA must be preformed grows as
+    $\mathcal{O} (n^2)$, where $n$ is the number of digits. For all 10 digits,
+    LDA would need to be preformed 45 times.
+
+    SVM and tree classifier are prefomed using the objects build into the
+    scikit-learn package. It is worth noting how east to implement these were.
+    This analysis can be added into future projects with minimal effort.
+
+    \section{Computational Results}
+    The digits are projected onto the SVD modes. Some examples of the spectrum
+    in these modes is given in fig \ref{fig:projection}. All the digits examples
+    are projected onto the 2nd, 3rd and 4th modes. The digits visually start to
+    cluster, which is an important requirement from the clasification algorithms
+    that will follow.
+
+    \begin{figure}[tbp]
+        \includegraphics[width=.48\textwidth]{svd_spectrum.pdf}
+        \includegraphics[width=.48\textwidth]{svd_projection.png}
+        \caption{\label{fig:projection} Left: 4 Examples of the spectrum of
+        the digit samples in the SVD modes. Right) All of the digit samples
+        projected onto the 2nd, 3rd and 4th SVD modes. Each digit is colored
+        differently.}
+    \end{figure}
+
+    It is not necessary to use the full set of modes. Figure \ref{fig:modes}
+    plots the total fraction of mode power remaining after $N$ modes are kept.
+    By 100 modes, $98\%$ of the power has already been collected. If you
+    truncate there, the numbers are still easily readable.
+
+    \begin{figure}[tbp]
+        \includegraphics[width=.48\textwidth]{mode_frac.pdf}
+        \includegraphics[width=.48\textwidth]{reduced_dim.png}
+        \caption{\label{fig:modes} Left: The fraction of total power that is
+        still not included after N modes are included. Right: On top are 8
+        selected digit samples, and on the bottom are the same digits,
+        represented with 100 SVD modes.}
+    \end{figure}
+
+    Once in the reduced order modes, LDA is applied identify between pairs of
+    digits. Each pair is trained using 2000 samples of the digits. The error
+    rate is reported in firgure \ref{fig:lda}. 4 and 7 were the easiest to
+    differentiate and 3 and 5 the hardest. I use this to inform
+    the sets of 3 digits for the 3 classification test. The first set is
+    composed of numbers that were all easily distinguised, 0, 2 and 8. This is
+    the best case test. The more sifficult test uses 3 commonly confused numbers,
+    0, 4, 5. For the easy set the error rate was 35\% and for the difficult set
+    the error rate was 40\%. This is much better than chance, but I wouldn't
+    stake my postage delivery on it.
+
+    \begin{figure}[tbp]
+        \centering
+        \includegraphics[width=.49\textwidth]{LDA-digits_conf.pdf}
+        \caption{\label{fig:lda} For all pairings of digits, the error rate
+        of LDA differentiating the two.}
+    \end{figure}
+
+    The same test differentiating between all combinations of digit pairs is
+    preformed again with two more advanced alogorithms. The error rates are
+    presented in fig \ref{fig:other_models}. Both models preform much better
+    than LDA, but SVD is the clear winner. Both models struggle with the oairs
+    (5, 3) and (5, 8). The decision tree struggles more with (4, 9).
+
+    \begin{figure}[tbp]
+        \centering
+        \includegraphics[width=.49\textwidth]{SVC-digits_conf.pdf}
+        \includegraphics[width=.49\textwidth]{DecisionTreeClassifier-digits_conf.pdf}
+        \caption{\label{fig:other_models} For all pairings of digits, the error
+        rate differentiating the two. On the left using SVM and the right a
+        decision tree.}
+    \end{figure}
+
+    When applied to all 10 digits, some of these features persist. The 9 and 4
+    confusion severely hurts the ability of the decision tree to correctly label
+    both of those digits. Again SVM preforms better, scoring in the high 90s
+    for most digits.
+    % 10 digit SVM performance
+    % 10 digit Decision Tree performance
+    \begin{figure}[tbp]
+        \centering
+        \includegraphics[width=.49\textwidth]{SVC-classification.pdf}
+        \includegraphics[width=.49\textwidth]{DecisionTreeClassifier-classification.pdf}
+        \caption{\label{fig:ten-digit} For the correct digit, the percetage
+        that it was identified as. On the left using SVM and the right a
+        decision tree.}
+    \end{figure}
+
+    \section{Summary and Conclusions}
+    Digit differentiation is explored with three different algorithms. SVMs are
+    the best performer on this data set. The biggest take away from this project
+    for me is how easy it is to implement models using scikit-learn. There is no
+    reason that these shouldn't be tried out on data sets in the research.
+
+    \bibliographystyle{ieeetr}
+    \bibliography{bibliography}
+
+    \FloatBarrier
+    \newpage
+    \appendix
+    Here is a \href{https://github.com/bagriffith/AMATH582/tree/main/HW4}
+    {link to the Github repository for this project}.
+    \section{Python Functions}
+    % Use PyDoc to generate
+    \input{docs}
+
+    \section{Python Code}
+    \subsection{main.py}
+    \inputminted{python}{../code/main.py}
+
+    \subsection{loadmnist.py}
+    \inputminted{python}{../code/loadmnist.py}
+
+    \subsection{svd.py}
+    \inputminted{python}{../code/svd.py}
+
+    \subsection{evaluation.py}
+    \inputminted{python}{../code/evaluation.py}
+
+    \subsection{lda.py}
+    \inputminted{python}{../code/lda.py}
+
+
+\end{document}

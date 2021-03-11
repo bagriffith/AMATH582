@@ -1,0 +1,279 @@
+\subsection{LDA Objects}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{class}\NormalTok{ LDA()}
+\end{Highlighting}
+\end{Shaded}
+
+Linear Discrimination Analysis model for classifying in up to 3 groups.
+
+\subsubsection{fit}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+ \OperatorTok{|}\NormalTok{ fit(X, y)}
+\end{Highlighting}
+\end{Shaded}
+
+Trains the model.
+
+\textbf{Arguments}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{X} \emph{array-like} - Contains rows of the training data
+  examples.
+\item
+  \texttt{y} \emph{array-like} - Contains labels for the training data
+  rows.
+\end{itemize}
+
+\subsubsection{predict}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+ \OperatorTok{|}\NormalTok{ predict(X)}
+\end{Highlighting}
+\end{Shaded}
+
+Predicts the category of rows of X.
+
+\textbf{Arguments}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{X} \emph{array-like} - Contains rows of the data to
+  categorize.
+\end{itemize}
+
+\subsection{evaluation}
+
+\subsubsection{NaiveClassifier Objects}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{class}\NormalTok{ NaiveClassifier()}
+\end{Highlighting}
+\end{Shaded}
+
+A model classifier that randomly guesses a digit.
+
+This was created as a simple test article to make sure the
+number\_confusion code worked indpendent of any model used.
+
+\subsubsection{number\_confusion}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{number_confusion(model, train_n, V)}
+\end{Highlighting}
+\end{Shaded}
+
+Plots a how the model preforms at distinguising pairs of digits.
+
+\textbf{Arguments}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{model} - The model class. Should have functions fit(X, y) that
+  trains the model to identify labels y using data X and predict(X) that
+  will label data in the matrix X.
+\item
+  \texttt{train\_n} \emph{int} - The number of example digits to train
+  on.
+\item
+  \texttt{V} \emph{array-like} - A matrix to transform the data into the
+  basis for predictions.
+\end{itemize}
+
+\subsubsection{full\_classification}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{full_classification(model, train_n, V)}
+\end{Highlighting}
+\end{Shaded}
+
+Plots a how the model preforms at identifying digits.
+
+\textbf{Arguments}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{model} - The model class. Should have functions fit(X, y) that
+  trains the model to identify labels y using data X and predict(X) that
+  will label data in the matrix X.
+\item
+  \texttt{train\_n} \emph{int} - The number of example digits to train
+  on.
+\item
+  \texttt{V} \emph{array-like} - A matrix to transform the data into the
+  basis for predictions.
+\end{itemize}
+
+\subsubsection{digit\_performance}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{digit_performance(model, train_n, V, digits)}
+\end{Highlighting}
+\end{Shaded}
+
+Plots a how the model preforms at identifying digits.
+
+\textbf{Arguments}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{model} - The model class. Should have functions fit(X, y) that
+  trains the model to identify labels y using data X and predict(X) that
+  will label data in the matrix X.
+\item
+  \texttt{train\_n} \emph{int} - The number of example digits to train
+  on.
+\item
+  \texttt{V} \emph{array-like} - A matrix to transform the data into the
+  basis for predictions.
+\item
+  \texttt{digits} \emph{list} - List of digits to test on
+\end{itemize}
+
+\subsection{main}
+
+\subsubsection{run\_analysis}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{run_analysis()}
+\end{Highlighting}
+\end{Shaded}
+
+Runs the full analysis for the MNIST handwritting project
+
+\subsection{svd}
+
+\subsubsection{plot\_mode\_proj}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plot_mode_proj(X, V, labels, modes)}
+\end{Highlighting}
+\end{Shaded}
+
+Creates a 3D projection of X into the 3 selected SVD modes
+
+\textbf{Arguments}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{X} \emph{array\_like} - Data matrix with rows of images
+\item
+  \texttt{V} \emph{array\_like} - Matrix with mode vectors as columns
+\item
+  \texttt{modes} \emph{list} - List of 3 mode indexes to project on
+\end{itemize}
+
+\subsubsection{plot\_n\_modes}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plot_n_modes(X, V, n)}
+\end{Highlighting}
+\end{Shaded}
+
+Shows the numbers represented with the selected number of SVD modes
+
+\textbf{Arguments}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{X} \emph{array\_like} - Data matrix with rows of images
+\item
+  \texttt{V} \emph{array\_like} - Matrix with mode vectors as columns
+\item
+  \texttt{n} \emph{int} - Number of modes to use in the representation
+\end{itemize}
+
+\subsubsection{plot\_svd\_spectrum}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plot_svd_spectrum(X, V)}
+\end{Highlighting}
+\end{Shaded}
+
+Plots the svd spectrum of 4 random images.
+
+\textbf{Arguments}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{X} \emph{array\_like} - Data matrix with rows of images
+\item
+  \texttt{V} \emph{array\_like} - Matrix with mode vectors as columns
+\end{itemize}
+
+\subsubsection{plot\_mode\_fraction}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plot_mode_fraction(s)}
+\end{Highlighting}
+\end{Shaded}
+
+Plots the fraction of power represented with n modes
+
+\textbf{Arguments}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{s} \emph{array-like} - 1D arrray of the variances of the
+  principal components.
+\end{itemize}
+
+\subsection{loadmnist}
+
+\subsubsection{load\_data}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{load_data(numbers}\OperatorTok{=}\VariableTok{None}\NormalTok{, size}\OperatorTok{=}\VariableTok{None}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Loads a matrix of selected numbers.
+
+Creates a matrix of shape (nsamples, npixels) where nsamples is the
+number of occurrences of the selected numbers.
+
+\textbf{Arguments}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{numbers} \emph{list} - A list of digits to load. If None or
+  empty, all digits will by loaded. Defaults to None.
+\item
+  \texttt{size} \emph{int} - The max number of images to load. If None,
+  all images will be loaded. Defaults to None.
+\end{itemize}
+
+\textbf{Returns}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{np.int32} - Matrix with rows of images
+\item
+  \texttt{np.int8} - Array of digit labels for rows of images
+\end{itemize}
