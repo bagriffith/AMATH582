@@ -99,7 +99,8 @@ def full_classification(model, train_n, V):
             n = np.sum((model_lables == predict) & (labels[train_n:] == real))
             frac = 100*n / total[real]
             frac_rate[real, predict] = frac
-            ax.text(real, predict, f'{frac:0.1f}', c='k',
+            c = 'w' if real == predict else 'k'
+            ax.text(real, predict, f'{frac:0.1f}', c=c,
                     va='center', ha='center')
 
     ax.set_xlim(-.5, 9.5)
@@ -111,13 +112,13 @@ def full_classification(model, train_n, V):
 
     off_diag = frac_rate.copy()
     np.fill_diagonal(off_diag, np.nan)
-    ax.pcolormesh(X, Y, off_diag, cmap='YlOrRd', alpha=.4)
+    ax.pcolormesh(X, Y, off_diag, cmap='YlOrRd', alpha=.4, vmin=0, vmax=11.2)
 
     on_diag = np.full_like(off_diag, np.nan)
     np.fill_diagonal(on_diag, 1)
     on_diag *= frac_rate
     m = np.nanmin(on_diag) - (np.nanmax(on_diag)-np.nanmin(on_diag))*.5
-    ax.pcolormesh(X, Y, on_diag, cmap='Greens', vmin=m)
+    ax.pcolormesh(X, Y, on_diag, cmap='Greens', vmin=50, vmax=100)
 
     fig.savefig('HW4/figures/{}-classification.pdf'.format(type(model).__name__),
                 bbox_inches='tight')
