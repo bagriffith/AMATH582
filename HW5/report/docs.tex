@@ -1,0 +1,208 @@
+\subsection{dmd}
+
+\subsubsection{dmd}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dmd(X2, u, s, vh)}
+\end{Highlighting}
+\end{Shaded}
+
+Returns the DMD modes and complex frequencies for the system.
+
+\textbf{Arguments}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{X2} \emph{array-like} - The X\_2\^{}M matrix
+\item
+  \texttt{u} \emph{array-like} - The U matrix of the X\_1\^{}M-1 SVD
+\item
+  \texttt{s} \emph{array-like} - The s array of the X\_1\^{}M-1 SVD
+\item
+  \texttt{vh} \emph{array-like} - The vh matrix of the X\_1\^{}M-1 SVD
+\end{itemize}
+
+\textbf{Returns}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{ndarray} - Array of complex frequencies for DMD modes
+\item
+  \texttt{ndarray} - Matrix with rows of the DMD modes
+\end{itemize}
+
+\subsubsection{x\_dmd}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x_dmd(t, psi, w, b)}
+\end{Highlighting}
+\end{Shaded}
+
+The DMD approximation of x(t).
+
+\textbf{Arguments}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{t} \emph{float} - The time in frames
+\item
+  \texttt{psi} \emph{array-like} - Matrix with rows of the DMD modes
+\item
+  \texttt{w} \emph{array-like} - Array of complex frequencies for DMD
+  modes
+\item
+  \texttt{b} \emph{array-like} - Array of initial values of the DMD
+  modes
+\end{itemize}
+
+\textbf{Returns}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{ndarray} - DMD approximation of pixels at t
+\end{itemize}
+
+\subsubsection{frame\_bg\_sep}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{frame_bg_sep(t, X, psi, w, b)}
+\end{Highlighting}
+\end{Shaded}
+
+Separate the forground and background of frame t
+
+\textbf{Arguments}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{t} \emph{int} - The time in frames
+\item
+  \texttt{psi} \emph{array-like} - Matrix with rows of the DMD modes
+\item
+  \texttt{w} \emph{array-like} - Array of complex frequencies for DMD
+  modes
+\item
+  \texttt{b} \emph{array-like} - Array of initial values of the DMD
+  modes
+\end{itemize}
+
+\textbf{Returns}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{ndarray} - Foreground array
+\item
+  \texttt{ndarray} - Background array
+\end{itemize}
+
+\subsubsection{show\_frame}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{show_frame(frame, shape, path_out)}
+\end{Highlighting}
+\end{Shaded}
+
+Plot the frame provided.
+
+\textbf{Arguments}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{frame} \emph{array-like} - 1 D array of pixels
+\item
+  \texttt{shape} \emph{tuple} - The shape of the image (pixels\_y,
+  pixels\_x)
+\item
+  \texttt{path\_out} \emph{str} - Path to save figure to
+\end{itemize}
+
+\subsection{svd}
+
+\subsubsection{plot\_n\_modes}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plot_n_modes(X, V, n, shape, path_out)}
+\end{Highlighting}
+\end{Shaded}
+
+Shows the numbers represented with the selected number of SVD modes
+
+\textbf{Arguments}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{X} \emph{array\_like} - Data matrix with rows of images
+\item
+  \texttt{V} \emph{array\_like} - Matrix with mode vectors as columns
+\item
+  \texttt{n} \emph{int} - Number of modes to use in the representation
+\item
+  \texttt{shape} \emph{tuple} - The shape of the image (pixels\_y,
+  pixels\_x)
+\item
+  \texttt{path\_out} \emph{str} - Path to save figure to
+\end{itemize}
+
+\subsubsection{plot\_mode\_fraction}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plot_mode_fraction(s, path_out)}
+\end{Highlighting}
+\end{Shaded}
+
+Plots the fraction of power represented with n modes
+
+\textbf{Arguments}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{s} \emph{array-like} - 1D arrray of the variances of the
+  principal components.
+\item
+  \texttt{path\_out} \emph{str} - Path to save figure to
+\end{itemize}
+
+\subsection{loadVid}
+
+\subsubsection{open\_video}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{open_video(vid_path)}
+\end{Highlighting}
+\end{Shaded}
+
+Loads the video matrices
+
+\textbf{Arguments}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{vid\_path} \emph{str} - Path to the video file
+\end{itemize}
+
+\textbf{Returns}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{ndarray} - X\_1\^{}M-1
+\item
+  \texttt{ndarray} - X\_2\^{}M
+\end{itemize}
