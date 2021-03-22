@@ -1,9 +1,28 @@
 .venv
 .vscode
-*/*.log
-*/*.aux
-*/*.bbl
-*/*.log
-*/*.synctex.gz
-*/*.ipynb
-*/__pycache__
+__pycache__
+
+# Data & Tmp Output isn't hosted in GitHub
+data
+output
+
+# Files only used for exploration
+*.ipynb
+*.xml
+*.mscz,
+*.m
+
+# Latex Files
+*.log
+*.aux
+*.bbl
+*.log
+*.synctex.gz
+*.blg
+*.fls
+*.fdb_latexmk
+_minted*
+*.abc
+*.out
+
+cm_xml_to_matplotlib.py
