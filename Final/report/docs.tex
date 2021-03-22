@@ -1,0 +1,218 @@
+\subsection{loadCurves}
+
+\subsubsection{create\_nasa\_curves}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{create_nasa_curves()}
+\end{Highlighting}
+\end{Shaded}
+
+Creates a matrix of all NASA battery curves, and its labels
+
+Creates each curve as a row in in a large X matrix. Each curve is
+voltage interpolated to be in 128 steps as a function of the power
+delivered from 2\% to 98\%.
+
+\subsubsection{load\_nasa\_curves}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{load_nasa_curves(to_load)}
+\end{Highlighting}
+\end{Shaded}
+
+Loads the curves cached to disk
+
+\textbf{Returns}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{X} \emph{ndarray} - Matrix of curves
+\item
+  \texttt{p} \emph{ndarray} - The discharge percentage that X rows are a
+  function of
+\item
+  \texttt{labels} \emph{ndarray} - Whuch battery each curve is
+\item
+  \texttt{capacity} \emph{ndarray} - The capacity of each battery during
+  each curve
+\end{itemize}
+
+\subsection{main}
+
+\subsubsection{plot\_aging}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plot_aging(p, X, labels, capacity)}
+\end{Highlighting}
+\end{Shaded}
+
+Plot examples of new and old battery curves.
+
+\textbf{Arguments}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{X} \emph{ndarray} - Matrix of curves
+\item
+  \texttt{p} \emph{ndarray} - The discharge percentage that X rows are a
+  function of
+\item
+  \texttt{labels} \emph{ndarray} - Whuch battery each curve is
+\item
+  \texttt{capacity} \emph{ndarray} - The capacity of each battery during
+  each curve
+\end{itemize}
+
+\subsection{svd}
+
+\subsubsection{plot\_mode\_fraction}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plot_mode_fraction(s)}
+\end{Highlighting}
+\end{Shaded}
+
+Plots the fraction of power represented with n modes.
+
+\textbf{Arguments}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{s} \emph{array-like} - 1D arrray of the variances of the
+  principal components.
+\end{itemize}
+
+\subsubsection{plot\_n\_modes}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plot_n_modes(p, X, V, n)}
+\end{Highlighting}
+\end{Shaded}
+
+Shows the numbers represented with the selected number of SVD modes.
+
+\textbf{Arguments}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{p} \emph{array\_like} - The discharge percentage that X rows
+  are a function of.
+\item
+  \texttt{X} \emph{array\_like} - Data matrix with rows of images.
+\item
+  \texttt{V} \emph{array\_like} - Matrix with mode vectors as columns.
+\item
+  \texttt{n} \emph{int} - Number of modes to use in the representation.
+\end{itemize}
+
+\subsubsection{plot\_mode\_vs\_life}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plot_mode_vs_life(capacity, X, V, n)}
+\end{Highlighting}
+\end{Shaded}
+
+Plots how the capacity changes for values of each SVD mode.
+
+\textbf{Arguments}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{capacity} \emph{ndarray} - The capacity of each battery during
+  each curve.
+\item
+  \texttt{X} \emph{ndarray} - Matrix of curves.
+\item
+  \texttt{V} \emph{array\_like} - Matrix with mode vectors as columns.
+\item
+  \texttt{n} \emph{int} - Number of modes to plot.
+\end{itemize}
+
+\subsection{predict}
+
+\subsubsection{find\_weights}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{find_weights(X, b)}
+\end{Highlighting}
+\end{Shaded}
+
+Calculate the weights of the linear regression.
+
+\textbf{Arguments}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{X} \emph{array-like} - Matrix with rows of curves.
+\item
+  \texttt{b} \emph{array-like} - The capacity for each curve.
+\end{itemize}
+
+\textbf{Returns}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{ndarray} - Weights for the model.
+\end{itemize}
+
+\subsection{predict}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{predict(X, w)}
+\end{Highlighting}
+\end{Shaded}
+
+Using previously calculated weights, predict the capacity of each curve.
+
+\textbf{Arguments}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{X} \emph{array-like} - Matrix with rows of curves.
+\item
+  \texttt{w} \emph{array-like} - Weights for the model.
+\end{itemize}
+
+\textbf{Returns}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{ndarray} - Predicted Capacities
+\end{itemize}
+
+\subsection{accuracy\_dist}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{accuracy_dist(b_real, b_model, path_out)}
+\end{Highlighting}
+\end{Shaded}
+
+Plots the error for two sets of capacties
+
+\textbf{Arguments}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{b\_real} \emph{array-like} - The capacity actually measured.
+\item
+  \texttt{b\_model} \emph{array-like} - Predicted capacities.
+\end{itemize}
